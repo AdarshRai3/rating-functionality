@@ -1,5 +1,6 @@
 package com.bootcodingtask.rating_functionality.services;
 
+import com.bootcodingtask.rating_functionality.models.UsersResponse;
 import com.bootcodingtask.rating_functionality.entities.Users;
 import com.bootcodingtask.rating_functionality.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.Optional;
 public class UsersServices {
   @Autowired
     private UsersRepository usersRepository;
+
 
   public Users createUser(Users users){
      return  usersRepository.save(users);
@@ -45,5 +47,13 @@ public class UsersServices {
       return false;
   }
 
+    public UsersResponse mapToUsersResponse(Users user) {
+        UsersResponse usersResponse = new UsersResponse();
+        usersResponse.setUser_id(user.getUserId());
+        usersResponse.setUsername(user.getUsername());
+        usersResponse.setEmail(user.getEmail());
+        usersResponse.setCreatedAt(user.getCreatedAt().toString());
+        return usersResponse;
+    }
 
 }

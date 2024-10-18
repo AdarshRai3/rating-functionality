@@ -1,5 +1,6 @@
 package com.bootcodingtask.rating_functionality.services;
 
+import com.bootcodingtask.rating_functionality.models.MockdrivesResponse;
 import com.bootcodingtask.rating_functionality.entities.MockDrives;
 import com.bootcodingtask.rating_functionality.repositories.MockDrivesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public class MockdrivesServices {
     @Autowired
     MockDrivesRepository mockDrivesRepository;
+
+
 
     public MockDrives createMockdrives(MockDrives mockDrives){
         return mockDrivesRepository.save(mockDrives);
@@ -38,5 +41,15 @@ public class MockdrivesServices {
             return true;
         }
         return false;
+    }
+
+    public MockdrivesResponse mapToMockdrivesResponse(MockDrives mockDrive) {
+        MockdrivesResponse mockdrivesResponse = new MockdrivesResponse();
+        mockdrivesResponse.setMock_drive_id(mockDrive.getMockDriveId());
+        mockdrivesResponse.setTitle(mockDrive.getTitle());
+        mockdrivesResponse.setAvg_rating(mockDrive.getAvg_rating());
+        mockdrivesResponse.setCreated_at(mockDrive.getCreatedAt().toString());
+        mockdrivesResponse.setQuestions(mockDrive.getQuestions());
+        return mockdrivesResponse;
     }
 }

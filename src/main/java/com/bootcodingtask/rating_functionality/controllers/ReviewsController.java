@@ -1,6 +1,7 @@
 package com.bootcodingtask.rating_functionality.controllers;
 
 
+import com.bootcodingtask.rating_functionality.models.ReviewsResponse;
 import com.bootcodingtask.rating_functionality.entities.Reviews;
 import com.bootcodingtask.rating_functionality.services.ReviewsServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -19,7 +21,7 @@ public class ReviewsController {
     private ReviewsServices reviewsServices;
 
 
-    @PostMapping("/users/{userId}/mockdrives/{mockDriveId}")
+    @PostMapping("/users/id/{userId}/mockdrives/id/{mockDriveId}")
     public ResponseEntity<Reviews> createOrUpdateReview(
             @PathVariable Integer userId,
             @PathVariable Integer mockDriveId,
@@ -31,46 +33,57 @@ public class ReviewsController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping
-    public ResponseEntity<?> getAllReviews(){
-        List<Reviews> reviews = reviewsServices.getAllMockdrives();
-        return ResponseEntity.ok(reviews);
-    }
 
+    @GetMapping
+    public ResponseEntity<?> getAllReviews() {
+        List<Reviews> reviews = reviewsServices.getAllReviews();
+        List<ReviewsResponse> responseList = reviews.stream()
+                .map(reviewsServices::mapToReviewsResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseList);
+    }
     @GetMapping("id/{id}")
-    public ResponseEntity<?> getReviewsById(@PathVariable Integer id){
-        Optional<Reviews> reviews = reviewsServices.getReviewsById(id);
-        if(reviews.isPresent()){
-            return new ResponseEntity<>(reviews,HttpStatus.OK);
+    public ResponseEntity<?> getReviewsById(@PathVariable Integer id) {
+        Optional<Reviews> review = reviewsServices.getReviewsById(id);
+        if (review.isPresent()) {
+            ReviewsResponse reviewResponse = reviewsServices.mapToReviewsResponse(review.get());
+            return new ResponseEntity<>(reviewResponse, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/users/id/{userId}")
     public ResponseEntity<?> getReviewsByUserId(@PathVariable Integer userId) {
         List<Reviews> reviews = reviewsServices.getReviewsByUserId(userId);
         if (!reviews.isEmpty()) {
-            return new ResponseEntity<>(reviews, HttpStatus.OK);
+            List<ReviewsResponse> responseList = reviews.stream()
+                    .map(reviewsServices::mapToReviewsResponse)
+                    .collect(Collectors.toList());
+            return new ResponseEntity<>(responseList, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/mockdrives/{mockDriveId}")
+    @GetMapping("/mockdrives/id/{mockDriveId}")
     public ResponseEntity<?> getReviewsByMockDriveId(@PathVariable Integer mockDriveId) {
         List<Reviews> reviews = reviewsServices.getReviewsByMockDriveId(mockDriveId);
         if (!reviews.isEmpty()) {
-            return new ResponseEntity<>(reviews, HttpStatus.OK);
+            List<ReviewsResponse> responseList = reviews.stream()
+                    .map(reviewsServices::mapToReviewsResponse)
+                    .collect(Collectors.toList());
+            return new ResponseEntity<>(responseList, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/users/{userId}/mockdrives/{mockDriveId}")
+    @GetMapping("/users/id/{userId}/mockdrives/id/{mockDriveId}")
     public ResponseEntity<?> getReviewByUserAndMockDrive(
             @PathVariable Integer userId,
             @PathVariable Integer mockDriveId) {
         Optional<Reviews> review = reviewsServices.getReviewByUserAndMockDrive(userId, mockDriveId);
         if (review.isPresent()) {
-            return new ResponseEntity<>(review.get(), HttpStatus.OK);
+            ReviewsResponse reviewResponse = reviewsServices.mapToReviewsResponse(review.get());
+            return new ResponseEntity<>(reviewResponse, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
