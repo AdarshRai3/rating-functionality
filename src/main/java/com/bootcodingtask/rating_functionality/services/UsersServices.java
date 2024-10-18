@@ -27,7 +27,7 @@ public class UsersServices {
 
   public Users updateUser(Integer id , Users updateUser){
       Optional<Users> existingUser = usersRepository.findById(id);
-      if(existingUser.isPresent() || !existingUser.equals("")){
+      if(existingUser.isPresent()){
           Users user = existingUser.get();
           user.setUsername(updateUser.getUsername());
           user.setEmail(updateUser.getEmail());

@@ -14,7 +14,7 @@ public class MockDrives {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "mock_drive_id")
-    private Integer mock_drive_id;
+    private Integer mockDriveId;
 
     @Column (name = "title" ,nullable = false ,length = 100)
     private String title;
@@ -22,8 +22,11 @@ public class MockDrives {
     @Column ( name = "createdAt", nullable = false , updatable = false)
     private LocalDateTime createdAt;
 
-    @Column (name = "avg_rating", precision = 3, scale = 2 )
+    @Column (name = "avg_rating", precision = 2, scale = 1 )
     private BigDecimal avg_rating;
+
+    @Column (name = "questions", nullable =false)
+    private List<String>Questions;
 
     @OneToMany (mappedBy = "mockDrive")
     private List<Reviews> reviews;

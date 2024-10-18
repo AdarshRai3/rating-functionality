@@ -23,7 +23,7 @@ public class Reviews {
     @JoinColumn(name = "mock_drive_id", nullable = false)
     private MockDrives mockDrive;
 
-    @Column(name = "ratings", precision = 2, scale = 1)
+    @Column(name = "ratings", precision = 1)
     private BigDecimal rating;
 
     @Column(name = "review", nullable = false)
