@@ -1,7 +1,9 @@
 package com.bootcodingtask.rating_functionality.controllers;
 
+import com.bootcodingtask.rating_functionality.entities.Reviews;
 import com.bootcodingtask.rating_functionality.models.UsersResponse;
 import com.bootcodingtask.rating_functionality.entities.Users;
+import com.bootcodingtask.rating_functionality.services.ReviewsServices;
 import com.bootcodingtask.rating_functionality.services.UsersServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,16 +20,22 @@ public class UsersController {
     @Autowired
     private UsersServices usersServices;
 
-    @PostMapping
-    public ResponseEntity<UsersResponse> createUser(@RequestBody Users myUser) {
+    @Autowired
+    private ReviewsServices reviewsServices;
+
+    @PostMapping("id/{id}/users/id/{userId}/mockdrives/id/{mockDriveId}")
+    public ResponseEntity<Reviews> createOrUpdateReview(
+            @PathVariable Integer userId,
+            @PathVariable Integer mockDriveId,
+            @RequestBody Reviews review) {
         try {
-            Users createdUser = usersServices.createUser(myUser);
-            UsersResponse response = usersServices.mapToUsersResponse(createdUser);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Reviews savedReview = reviewsServices.saveOrUpdateReview(userId, mockDriveId, review);
+            return new ResponseEntity<>(savedReview, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
 
     @GetMapping
     public ResponseEntity<List<UsersResponse>> getAllUsers() {

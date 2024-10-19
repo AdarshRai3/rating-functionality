@@ -1,6 +1,5 @@
 package com.bootcodingtask.rating_functionality.controllers;
 
-
 import com.bootcodingtask.rating_functionality.models.ReviewsResponse;
 import com.bootcodingtask.rating_functionality.entities.Reviews;
 import com.bootcodingtask.rating_functionality.services.ReviewsServices;
@@ -20,17 +19,55 @@ public class ReviewsController {
     @Autowired
     private ReviewsServices reviewsServices;
 
-
     @PostMapping("/users/id/{userId}/mockdrives/id/{mockDriveId}")
     public ResponseEntity<Reviews> createOrUpdateReview(
             @PathVariable Integer userId,
             @PathVariable Integer mockDriveId,
             @RequestBody Reviews review) {
         try {
-            Reviews savedReview = reviewsServices.saveOrUpdateReview(userId,mockDriveId,review);
+            Reviews savedReview = reviewsServices.saveOrUpdateReview(userId, mockDriveId, review);
             return new ResponseEntity<>(savedReview, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/id/{id}")
+    public ResponseEntity<?> updateReviewById(
+            @PathVariable Integer id,
+            @RequestBody Reviews review) {
+        try {
+            Optional<Reviews> existingReview = reviewsServices.getReviewsById(id);
+            if (existingReview.isPresent()) {
+                review.setReview_id(id);
+                Reviews updatedReview = reviewsServices.saveOrUpdateReview(
+                        existingReview.get().getUser().getUserId(),
+                        existingReview.get().getMockDrive().getMockDriveId(),
+                        review
+                );
+                return new ResponseEntity<>(updatedReview, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/users/id/{userId}/mockdrives/id/{mockDriveId}")
+    public ResponseEntity<?> updateReviewByUserAndMockDrive(
+            @PathVariable Integer userId,
+            @PathVariable Integer mockDriveId,
+            @RequestBody Reviews review) {
+        try {
+            Optional<Reviews> existingReview = reviewsServices.getReviewByUserAndMockDrive(userId, mockDriveId);
+            if (existingReview.isPresent()) {
+                review.setReview_id(existingReview.get().getReview_id());
+                Reviews updatedReview = reviewsServices.saveOrUpdateReview(userId, mockDriveId, review);
+                return new ResponseEntity<>(updatedReview, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -42,6 +79,7 @@ public class ReviewsController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseList);
     }
+
     @GetMapping("id/{id}")
     public ResponseEntity<?> getReviewsById(@PathVariable Integer id) {
         Optional<Reviews> review = reviewsServices.getReviewsById(id);
@@ -87,6 +125,4 @@ public class ReviewsController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-
 }

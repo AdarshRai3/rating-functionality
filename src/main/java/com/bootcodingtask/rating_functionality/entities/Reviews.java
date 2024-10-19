@@ -24,7 +24,7 @@ public class Reviews {
     private MockDrives mockDrive;
 
     @Column(name = "ratings", precision = 1)
-    private BigDecimal rating;
+    private BigDecimal rating = BigDecimal.ZERO;
 
     @Column(name = "review", nullable = false)
     private String review;
