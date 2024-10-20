@@ -107,6 +107,14 @@ public class ReviewsServices {
         return reviewsRepository.findByUserUserIdAndMockDriveMockDriveId(userId, mockDriveId);
     }
 
+    public void deleteReviewById(Integer reviewId) {
+        if (!reviewsRepository.existsById(reviewId)) {
+            throw new IllegalArgumentException("Review not found with ID: " + reviewId);
+        }
+        reviewsRepository.deleteById(reviewId);
+    }
+
+
     public ReviewsResponse mapToReviewsResponse(Reviews review) {
         ReviewsResponse reviewsResponse = new ReviewsResponse();
         reviewsResponse.setReview_id(review.getReview_id());

@@ -26,7 +26,7 @@
 		<tag/>
 		<url/>
 	</scm>
-	<properties>
+	<properties>git
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
@@ -51,15 +51,12 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-crypto</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>

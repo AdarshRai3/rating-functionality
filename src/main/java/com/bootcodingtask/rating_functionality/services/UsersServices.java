@@ -11,41 +11,41 @@ import java.util.Optional;
 
 @Component
 public class UsersServices {
-  @Autowired
+
+    @Autowired
     private UsersRepository usersRepository;
 
+    public Users createUser(Users user) {
+        return usersRepository.save(user);
+    }
 
-  public Users createUser(Users users){
-     return  usersRepository.save(users);
-  }
+    public Optional<Users> getUsersById(Integer id) {
+        return usersRepository.findById(id);
+    }
 
-  public Optional<Users> getUsersById(Integer id){
-      return usersRepository.findById(id);
-  }
+    public List<Users> getAllUsers() {
+        return usersRepository.findAll();
+    }
 
-  public List<Users> getAllUsers(){
-      return usersRepository.findAll();
-  }
+    public Users updateUser(Integer id, Users updateUser) {
+        Optional<Users> existingUserOpt = usersRepository.findById(id);
+        if (existingUserOpt.isPresent()) {
+            Users user = existingUserOpt.get();
+            user.setUsername(updateUser.getUsername() != null ? updateUser.getUsername() : user.getUsername());
+            user.setEmail(updateUser.getEmail() != null ? updateUser.getEmail() : user.getEmail());
+            user.setPasswordHash(updateUser.getPasswordHash() != null ? updateUser.getPasswordHash() : user.getPasswordHash());
+            return usersRepository.save(user);
+        }
+        return null;
+    }
 
-  public Users updateUser(Integer id , Users updateUser){
-      Optional<Users> existingUser = usersRepository.findById(id);
-      if(existingUser.isPresent()){
-          Users user = existingUser.get();
-          user.setUsername(updateUser.getUsername());
-          user.setEmail(updateUser.getEmail());
-          user.setPasswordHash(updateUser.getPasswordHash());
-          return  usersRepository.save(user);
-      }
-      return null;
-  }
-
-  public boolean deleteUserByID(Integer id){
-      if(usersRepository.existsById(id)){
-          usersRepository.deleteById(id);
-          return true;
-      }
-      return false;
-  }
+    public boolean deleteUserByID(Integer id) {
+        if (usersRepository.existsById(id)) {
+            usersRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 
     public UsersResponse mapToUsersResponse(Users user) {
         UsersResponse usersResponse = new UsersResponse();
@@ -55,5 +55,4 @@ public class UsersServices {
         usersResponse.setCreatedAt(user.getCreatedAt().toString());
         return usersResponse;
     }
-
 }

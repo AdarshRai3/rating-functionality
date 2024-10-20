@@ -125,4 +125,13 @@ public class ReviewsController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<?> deleteReviewById(@PathVariable Integer id) {
+        try {
+            reviewsServices.deleteReviewById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }
