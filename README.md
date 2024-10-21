@@ -44,11 +44,7 @@ The Mock Drive Rating System provides a robust platform for:
 
 ![db-schema-svg](https://github.com/user-attachments/assets/88af3d53-1b6d-476e-b48b-a9367db7bbf0)
 
-# Mock Drive Rating System
 
-A Spring Boot application that manages user ratings and reviews for mock drives, providing functionality to add, update, and aggregate ratings along with detailed reviews.
-
----
 
 ## 💡 Features
 
