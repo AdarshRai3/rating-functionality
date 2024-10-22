@@ -117,7 +117,7 @@ The Mock Drive Rating System provides a robust platform for:
 
 1. **Clone the repository**
     ```bash
-    git clone https://github.com/yourusername/mock-drive-rating-system.git
+    git clone https://github.com/AdarshRai3/rating-functionality.git
     cd mock-drive-rating-system
     ```
 
