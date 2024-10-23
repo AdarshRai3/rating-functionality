@@ -77,32 +77,33 @@ The Mock Drive Rating System provides a robust platform for:
 ## 📚 API Documentation
 
 ### User APIs
-| Method | Endpoint         | Description          | Request Body                                         | Response       |
-|--------|------------------|----------------------|------------------------------------------------------|----------------|
-| POST   | /api/users        | Create user          | `{"username": "string", "email": "string", "password": "string"}` | User object    |
-| GET    | /api/users        | Get all users        | -                                                    | Array of users |
-| GET    | /api/users/{id}   | Get user by ID       | -                                                    | User object    |
-| PUT    | /api/users/{id}   | Update user          | User object                                          | Updated user   |
-| DELETE | /api/users/{id}   | Delete user          | -                                                    | 204 No Content |
+| Method | Endpoint           | Description          | Request Body                                         | Response       |
+|--------|----------------  --|----------------------|------------------------------------------------------|----------------|
+| POST   | /api/users         | Create user          | `{"username": "string", "email": "string", "password": "string"}` | User object    |
+| GET    | /api/users         | Get all users        | -                                                    | Array of users |
+| GET    | /api/users/id/{id} | Get user by ID       | -                                                    | User object    |
+| PUT    | /api/users/id/{id} | Update user          | User object                                          | Updated user   |
+| DELETE | /api/users/id/{id} | Delete user          | -                                                    | 204 No Content |
 
 ### Mock Drive APIs
-| Method | Endpoint               | Description          | Request Body    | Response         |
-|--------|------------------------|----------------------|-----------------|------------------|
-| POST   | /api/mockdrives         | Create mock drive    | Mock drive object | Created mock drive |
-| GET    | /api/mockdrives         | Get all mock drives  | -               | Array of mock drives |
-| GET    | /api/mockdrives/{id}    | Get mock drive by ID | -               | Mock drive object |
-| PUT    | /api/mockdrives/{id}    | Update mock drive    | Mock drive object | Updated mock drive |
-| DELETE | /api/mockdrives/{id}    | Delete mock drive    | -               | 204 No Content |
+| Method | Endpoint                | Description          | Request Body      | Response             |
+|--------|---------------------- --|----------------------|-------------------|----------------------|
+| POST   | /api/mockdrives         | Create mock drive    | Mock drive object | Created mock drive   |
+| GET    | /api/mockdrives         | Get all mock drives  | -                 | Array of mock drives |
+| GET    | /api/mockdrives/id/{id} | Get mock drive by ID | -                 | Mock drive object    |
+| PUT    | /api/mockdrives/id/{id} | Update mock drive    | Mock drive object | Updated mock drive   |
+| DELETE | /api/mockdrives/id/{id} | Delete mock drive    | -                 | 204 No Content       |
 
 ### Review APIs
-| Method | Endpoint                               | Description            | Request Body    | Response         |
-|--------|----------------------------------------|------------------------|-----------------|------------------|
-| POST   | /api/reviews                           | Create review          | Review object   | Created review   |
-| GET    | /api/reviews/{id}                      | Get review by ID       | -               | Review object    |
-| PUT    | /api/reviews/{id}                      | Update review          | Review object   | Updated review   |
-| GET    | /api/reviews/user/{userId}             | Get user reviews       | -               | Array of reviews |
-| GET    | /api/reviews/mockdrive/{driveId}       | Get mock drive reviews | -               | Array of reviews |
-
+| Method | Endpoint                                      | Description                         | Request Body    | Response         |
+|--------|-----------------------------------------------|-------------------------------------|-----------------|------------------|
+| POST   | /api/reviews/users/id/{id}/mockdrives/id/{id} | Create review                       | Review object   | Created review   |
+| GET    | /api/reviews/id/{id}                          | Get review by ID                    | -               | Review object    |
+| PUT    |/api/reviews/id/{id}                           | Update review                       | Review object   | Updated review   |
+| GET    | /api/reviews                                  | Get user reviews                       | -               | Array of reviews |
+| GET    | /api/reviews/users/id/{id}/mockdrives/id/{id} | Get mock drive reviews                    | -               | Array of reviews |
+| DELETE |/api/reviews/id/{id}                           | Delete review by id                       | -               |  204 No Content  |
+| PUT    |/api/reviews/users/id/{id}/mockdrives/id/{id}  | Update review by user id and mockdrive id | -               |  Array of the review   |
 ---
 
 ## 🛠️ Setup Instructions
